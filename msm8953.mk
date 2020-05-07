@@ -351,5 +351,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     WfdCommon
 
+# Enable updatable APEX
+ifeq ($(ENABLE_APEX), true)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+endif
+
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/msm8953-common/msm8953-common-vendor.mk)

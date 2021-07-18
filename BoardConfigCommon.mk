@@ -155,5 +155,12 @@ WIFI_AVOID_IFACE_RESET_MAC_CHANGE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
+# APEX image
+ifeq ($(ENABLE_APEX), true)
+DEXPREOPT_GENERATE_APEX_IMAGE := true
+else
+OVERRIDE_TARGET_FLATTEN_APEX := true
+endif
+
 # Inherit from the proprietary version
 include vendor/xiaomi/msm8953-common/BoardConfigVendor.mk

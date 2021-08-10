@@ -28,9 +28,6 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <cstdlib>
-#include <fstream>
-#include <string.h>
 #include <sys/sysinfo.h>
 #include <unistd.h>
 
@@ -41,7 +38,7 @@
 #include "vendor_init.h"
 #include "property_service.h"
 
-using android::base::GetProperty;
+#include <string>
 
 char const *heapstartsize;
 char const *heapgrowthlimit;
@@ -59,6 +56,26 @@ void property_override(char const prop[], char const value[], bool add = true)
     } else if (add) {
         __system_property_add(prop, strlen(prop), value, strlen(value));
     }
+}
+
+void load_ysl()
+{
+    std::string region = android::base::GetProperty("ro.boot.hwcountry", "");
+
+    std::string name = "Redmi ";
+    name += region.find("INDIA") != std::string::npos ? "Y2" : "S2";
+
+    property_override("ro.product.model", name.c_str());
+}
+
+void load_vince()
+{
+    std::string region = android::base::GetProperty("ro.boot.product.region", "");
+
+    std::string name = "Redmi ";
+    name += region.find("India") != std::string::npos ? "Note 5" : "5 Plus";
+
+    property_override("ro.product.model", name.c_str());
 }
 
 void check_device()
@@ -92,6 +109,12 @@ void check_device()
         heapminfree = "512k";
         heapmaxfree = "8m";
     }
+
+    std::string device = android::base::GetProperty("ro.product.device", "");
+    if (device == "ysl")
+        load_ysl();
+    else if (device == "vince")
+        load_vince();
 }
 
 void vendor_load_properties()

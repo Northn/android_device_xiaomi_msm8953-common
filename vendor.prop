@@ -187,3 +187,8 @@ ro.config.sdha_apps_bg_min=8
 ro.iorapd.enable=true
 iorapd.perfetto.enable=true
 iorapd.readahead.enable=true
+
+# Blur
+ro.sf.blurs_are_expensive=1
+ro.surface_flinger.supports_background_blur=1
+debug.sf.disable_backpressure=1
